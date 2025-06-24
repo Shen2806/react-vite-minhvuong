@@ -1,8 +1,15 @@
+import './style.css';
 const MyComponent = () => {
   return (
-    <div>
+    <>
+      <div>
       hello minh vuong
     </div>
+    <div className="child">
+    child
+    </div>
+    </>
+    
   ); 
 }
 
