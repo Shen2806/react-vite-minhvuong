@@ -15,7 +15,7 @@ const App = () => {
   const addNewTodo = (name) =>{
     alert(`Call me ${name}`);
   }
-  addNewTodo();
+  // addNewTodo();
   return (
     <div className="todo-container">
       <div className="todo-title">
