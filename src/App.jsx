@@ -3,28 +3,24 @@ import TodoData from "./components/todo/TodoData.jsx";
 import TodoNew from "./components/todo/TodoNew.jsx";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
-
+import Header from "./components/layout/header.jsx";
+import Footer from "./components/layout/footer.jsx";
 const App = () => {
 
   const [todoList, setTodoList] = useState([
-    // {
-    //   id: 1, name: 'Learn ReactJS'
-    // },
-    // {
-    //   id: 2, name: 'Learn NodeJS'
-    // },
+
     
   ]);
 
   const addNewTodo = (name) =>{
     // alert(`Call me ${name}`);
     const newTodo = {
-      id: randomIntfromInterval(3, 1000), // Random ID from 3 to 1000
+      id: randomInformInterval(3, 1000), // Random ID from 3 to 1000
       name: name
     }
     setTodoList([...todoList, newTodo]);
   }
-  const randomIntfromInterval = (min, max) => {
+  const randomInformInterval = (min, max) => {
     // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -34,7 +30,9 @@ const App = () => {
   }
   // addNewTodo();
   return (
-    <div className="todo-container">
+    <>
+      <Header />
+      <div className="todo-container">
       <div className="todo-title">
         <h1> Todo List</h1>
       </div>
@@ -51,6 +49,9 @@ const App = () => {
          </div>
       }
      </div>
+      <Footer />
+    </>
+    
   )
 }
 
