@@ -24,7 +24,16 @@ const App = () => {
     address : 'Hanoi',
   };
   const addNewTodo = (name) =>{
-    alert(`Call me ${name}`);
+    // alert(`Call me ${name}`);
+    const newTodo = {
+      id: randomIntfromInterval(3, 1000), // Random ID from 3 to 1000
+      name: name
+    }
+    setTodoList([...todoList, newTodo]);
+  }
+  const randomIntfromInterval = (min, max) => {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
   // addNewTodo();
   return (

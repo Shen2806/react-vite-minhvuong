@@ -4,16 +4,19 @@ const TodoNew = (props) =>{
   const [valueInput, setValueInput] = useState("minhvuong");
   // addNewTodo("minhvuong");
   const handleClick = () => {
-    alert("Click me !")
+    addNewTodo(valueInput);
+    setValueInput(""); // Reset input value after adding
   }
   const handleOnChange = (name) => {
-    console.log("Change input value", name);
     setValueInput(name);
   }
     return (
         <div className="todo-new">
         <input type="text" placeholder="Add a new task..." 
-        onChange={(event) => handleOnChange(event.target.value)}/>
+        onChange={(event) => handleOnChange(event.target.value)}
+        value={valueInput}
+        />
+        
         <button 
           style={{cursor: "pointer"}}
           onClick={handleClick}
