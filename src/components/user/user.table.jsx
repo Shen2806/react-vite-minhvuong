@@ -1,6 +1,7 @@
 import { Space, Table, Tag } from 'antd';
 import { fetchAllUserAPI } from '../../services/api.service';
-import { useState } from 'react';
+import { useEffect, useState,  } from 'react';
+
 
 const UserTable = () => {
   const [dataUsers, setDataUsers ] = useState([
@@ -9,8 +10,12 @@ const UserTable = () => {
       fullName: 32,
       email: 'New York No. 1 Lake Park',
     },
-    
+
   ]); // Initialize state to hold user data
+  useEffect(() => {
+    loadUser();
+
+  }, [])
     const columns = [
         {
           title: 'Id',
@@ -59,9 +64,12 @@ const UserTable = () => {
         // setDataUsers(res.data);
       }
 
-      loadUser();
     return (
-        <Table columns={columns} dataSource={dataUsers} />
+        <Table 
+        columns={columns} 
+        dataSource={dataUsers} 
+        rowKey="_id" 
+        />
     );
 }
 
