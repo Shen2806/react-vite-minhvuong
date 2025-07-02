@@ -1,20 +1,23 @@
-import { Button, Input, notification } from "antd";
+import { Button, Input, notification, Modal } from "antd";
 import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 
 
 const UserForm = () => {
-    const [fullName, setFullName] = useState("minhvuong");
+    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const handleClickBtn = async () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleSubmitBtn = async () => {
         const res = await createUserAPI(fullName, email, password, phone)
         if(res.data){
             notification.success({
                 message: "Create User Success",
                 description: `created successfully!`
             });
+            setIsModalOpen(false);
         }
         else {
             notification.error({
@@ -27,9 +30,23 @@ const UserForm = () => {
         
    
     return (
-        <div className="user-form" style={{margin: "20px 0"}}>
+        <div className="user-form" style={{margin: "10px 0"}}>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px"}}>
-                <div>
+                
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                    <h3>Table Users </h3>
+                    <Button type="primary"
+                        onClick={()=> setIsModalOpen(true)}
+                    >Create User</Button>
+                </div>
+            </div>
+            <Modal title="CREATE USER" 
+            open={isModalOpen} 
+            onOk={() => handleSubmitBtn()} 
+            onCancel={() => setIsModalOpen(false)}
+            maskClosable={false}
+            okText={"Create"}>
+                    <div>
                     <span>FullName</span>
                     <Input 
                     value={fullName}
@@ -58,13 +75,8 @@ const UserForm = () => {
                         onChange={(event) => setPhone(event.target.value)}
                     />
                 </div>
-                <div>
-                    <Button type="primary"
-                        onClick={handleClickBtn}
-                       
-                    >Submit</Button>
-                </div>
-            </div>
+            </Modal>
+
         </div>
     )
 }
