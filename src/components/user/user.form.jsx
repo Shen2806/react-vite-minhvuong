@@ -20,6 +20,7 @@ const UserForm = (props) => {
             });
             resetAndCloseModal();
             await loadUser(); // Reload user data after creation
+            
         }
         else {
             notification.error({

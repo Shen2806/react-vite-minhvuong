@@ -1,13 +1,21 @@
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Space, Table, Tag } from 'antd';
+import UpdateUserModal from './updata.user.modal';
+import React from 'react';
 
 
 const UserTable = (props) => {
   const { dataUsers } = props;
   
     const columns = [
+      
         {
           title: 'Id',
           dataIndex: '_id',
+          render: (_, record) => (
+            <a href='#'>{record._id}</a>
+              
+          ),
 
         },
         {
@@ -20,7 +28,17 @@ const UserTable = (props) => {
           dataIndex: 'email',
 
         },
-        
+        {
+          title: 'Action',
+          key: 'action',
+          render: (_, record) => (
+            <div style={{ display: "flex", gap: "20px"}}>
+              <EditOutlined style={{cursor:"pointer" , color:'orange' }}/>
+              <DeleteOutlined style={{cursor:"pointer" , color:'red' }}/>
+            </div>
+              
+          ),
+        },
         
       ];
       const data = [
@@ -50,11 +68,14 @@ const UserTable = (props) => {
 
 
     return (
+      <>
         <Table 
         columns={columns} 
         dataSource={dataUsers} 
         rowKey="_id" 
         />
+        <UpdateUserModal />
+      </>
     );
 }
 
