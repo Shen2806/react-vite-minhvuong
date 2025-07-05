@@ -1,12 +1,14 @@
-import { Drawer} from "antd";
+import { Button, Drawer, notification} from "antd";
 import { useState } from "react";
+import { handleUploadFile, updateUserAvatarAPI } from "../../services/api.service";
 
 const ViewUserDetail = (props) => {
     const{
         dataDetail,
         setDataDetail,
         isDetailOpen,
-        setIsDetailOpen
+        setIsDetailOpen,
+        loadUser
     } = props;
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -25,7 +27,33 @@ const ViewUserDetail = (props) => {
     }
     
   }
-  console.log(preview);
+  const handleUpdateUserAvatar = async () =>{
+    const resUpload = await handleUploadFile(selectedFile, 'avatar');
+    if(resUpload.data){
+      const newAvatar = resUpload.data.fileUploaded;
+      const resUpdateAvatar = await updateUserAvatarAPI(newAvatar, dataDetail._id,dataDetail.fullName, dataDetail.email, dataDetail.phone);
+      if(resUpdateAvatar.data){
+        setIsDetailOpen(false);
+        setSelectedFile(null);
+        setPreview(null);
+        await loadUser(); 
+        notification.success({
+          message: 'Update Avatar',
+          description: 'Avatar updated successfully!'
+        });
+      }else{
+      notification.error({
+        message: 'Error uploading file',
+        description: JSON.stringify(resUpdateAvatar.error)
+      });
+      }
+     }else{
+      notification.error({
+        message: 'Error uploading file',
+        description: JSON.stringify(resUpload.message )
+      });
+    }
+  }
     return (
         <Drawer
         width={"50%"}
@@ -74,19 +102,26 @@ const ViewUserDetail = (props) => {
            />
         </div>
         {preview &&
-        <div style={{
-          marginTop: '10px',
-          height: '200px',
-          width: '200px',
-          border: '1px solid #d9d9d9',
-        }}>
-          <img style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-          src={preview}/>
-        </div>
+        <>
+          <div style={{
+            marginTop: '10px',
+            height: '200px',
+            width: '200px',
+            marginBottom: '10px',
+          }}>
+            <img style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+            src={preview}/>
+          </div>
+             <Button
+              type="primary"
+              style={{ marginTop: '10px' }}
+              onClick = {() => handleUpdateUserAvatar()}
+              >Save</Button>
+        </>
       }
         </>
          :
