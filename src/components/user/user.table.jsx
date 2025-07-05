@@ -36,7 +36,7 @@ const UserTable = (props) => {
         render: (_, recor, index) => {
           return (
             <>
-              {index + 1}
+              {(index + 1) + (current - 1) * pageSize}
             </>
           );
         },
@@ -98,9 +98,20 @@ const UserTable = (props) => {
         
       ];
       const onChange = (pagination, filters, sorter, extra) => { 
+        // setCurrent, setPageSize
+        if(pagination && pagination.current) {
+          if(+pagination.current !== +current) {
+            setCurrent(+pagination.current);
+          }
+        if(pagination && pagination.pageSize) {
+          if(+pagination.pageSize !== +pageSize) {
+            setPageSize(+pagination.pageSize);
+          }
+        }
         console.log('params', pagination, filters, sorter, extra);
         
-       };
+       }
+      }
     return (
       <>
         <Table 
@@ -136,5 +147,4 @@ const UserTable = (props) => {
       </>
     );
 }
-
 export default UserTable;
