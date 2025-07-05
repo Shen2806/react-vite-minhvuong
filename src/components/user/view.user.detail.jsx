@@ -1,4 +1,5 @@
-import {Button, Drawer} from "antd";
+import { Drawer} from "antd";
+import { useState } from "react";
 
 const ViewUserDetail = (props) => {
     const{
@@ -7,7 +8,24 @@ const ViewUserDetail = (props) => {
         isDetailOpen,
         setIsDetailOpen
     } = props;
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [preview, setPreview] = useState(null);
+    const handleOnChangeFile = (event) => {
+      if (!event.target.files || event.target.files.length === 0) {
+        setSelectedFile(null);
+        setPreview(null);
+        return
+    }
 
+    // I've kept this example simple by using the first image instead of multiple
+    const file = event.target.files[0]
+    if(file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
+    
+  }
+  console.log(preview);
     return (
         <Drawer
         width={"50%"}
@@ -26,8 +44,17 @@ const ViewUserDetail = (props) => {
         <p><strong>Email:</strong> {dataDetail.email}</p><br />
         <p><strong>Phone:</strong> {dataDetail.phone}</p><br />
         <p><strong>Avatar</strong></p><br />
-        <div>
-          <img height={200} width={200}
+        <div style={{
+          marginTop: '10px',
+          height: '200px',
+          width: '200px',
+          border: '1px solid #d9d9d9',
+        }}>
+          <img style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
           src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${dataDetail.avatar}`}/>
         </div>
         <div>
@@ -42,9 +69,25 @@ const ViewUserDetail = (props) => {
             cursor: 'pointer',
             textAlign: 'center'
           }}>Upload Avatar</label>
-          <input type="file" hidden id="btnUpload" />
+          <input type="file" hidden id="btnUpload"
+          onChange={handleOnChangeFile}
+           />
         </div>
-        {/* <Button type="primary">Upload Avatar</Button> */}
+        {preview &&
+        <div style={{
+          marginTop: '10px',
+          height: '200px',
+          width: '200px',
+          border: '1px solid #d9d9d9',
+        }}>
+          <img style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
+          src={preview}/>
+        </div>
+      }
         </>
          :
          <>
