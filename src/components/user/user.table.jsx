@@ -6,7 +6,7 @@ import ViewUserDetail from './view.user.detail'; //
 import { deleteUserAPI } from '../../services/api.service'; 
 
 const UserTable = (props) => {
-  const { dataUsers, loadUser } = props;
+  const { dataUsers, loadUser, current, pageSize, total, setCurrent, setPageSize } = props;
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
 
@@ -78,17 +78,17 @@ const UserTable = (props) => {
                 }
               style={{cursor:"pointer" , color:'orange' }}/>
                 <Popconfirm
-  title="Delete the user"
-  description="Are you sure to delete this user?"
-  onConfirm={() => {
-    handleDeleteUser(record._id);
-  }}
-  okText="Yes"
-  cancelText="No"
-  placement="left"
->
-  <DeleteOutlined style={{ cursor: "pointer", color: 'red' }} />
-</Popconfirm>
+                    title="Delete the user"
+                    description="Are you sure to delete this user?"
+                    onConfirm={() => {
+                      handleDeleteUser(record._id);
+                    }}
+                    okText="Yes"
+                    cancelText="No"
+                    placement="left"
+                  >
+                    <DeleteOutlined style={{ cursor: "pointer", color: 'red' }} />
+                </Popconfirm>
 
               
             </div>
@@ -97,38 +97,25 @@ const UserTable = (props) => {
         },
         
       ];
-      // const data = [
-      //   {
-      //     key: '1',
-      //     name: 'John Brown',
-      //     age: 32,
-      //     address: 'New York No. 1 Lake Park',
-      //     tags: ['nice', 'developer'],
-      //   },
-      //   {
-      //     key: '2',
-      //     name: 'Jim Green',
-      //     age: 42,
-      //     address: 'London No. 1 Lake Park',
-      //     tags: ['loser'],
-      //   },
-      //   {
-      //     key: '3',
-      //     name: 'Joe Black',
-      //     age: 32,
-      //     address: 'Sydney No. 1 Lake Park',
-      //     tags: ['cool', 'teacher'],
-      //   },
-      // ];
-
-
-
+      const onChange = (pagination, filters, sorter, extra) => { 
+        console.log('params', pagination, filters, sorter, extra);
+        
+       };
     return (
       <>
         <Table 
         columns={columns} 
         dataSource={dataUsers} 
-        rowKey="_id" 
+        rowKey={"_id"} 
+        pagination={
+          {
+          current: current,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          total: total,
+          showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+          } }
+        onChange={onChange}
         />
         <UpdateUserModal 
           isModalUpdateOpen={isModalUpdateOpen} 
@@ -143,6 +130,7 @@ const UserTable = (props) => {
           dataDetail={dataDetail}
           setDataDetail={setDataDetail}
           loadUser={loadUser}
+          
 
         />
       </>
