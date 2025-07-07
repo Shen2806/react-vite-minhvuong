@@ -1,6 +1,6 @@
-import {Button , Form, Input, notification,  Row, Col} from "antd";
+import {Button , Form, Input, notification,  Row, Col, Divider} from "antd";
 import { registerUserAPI } from "../services/api.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const RegisterPage = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const RegisterPage = () => {
       onFinish={onFinish}
       style={{ margin: "10px" }} // căn giữa form
     >
-      
+      <h3 style={{textAlign:"center"}}>Account Register</h3>
       <Row justify={"center"}>
         <Col xs={24} md={6}>
           <Form.Item
@@ -88,10 +88,14 @@ const RegisterPage = () => {
       <Row justify={"center"}>  
         <Col xs={24} md={6}>
           <div>
-            <Button type="primary" htmlType="submit" block>
+            <Button
+              onClick={()=> form.submit()}
+              type="primary" htmlType="submit" block>
               Register
             </Button>
           </div>
+          <Divider /> 
+          <div>Already have an account? <Link to ={'/login'}>Sign in here </Link></div>
         </Col>
           
       </Row>
