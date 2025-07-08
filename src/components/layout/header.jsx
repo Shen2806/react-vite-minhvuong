@@ -5,7 +5,7 @@ import { Children, useContext, useState } from 'react';
 import { AuthContext } from '../context/auth.context';
 const Header = () => {
   const [current, setCurrent] = useState('');
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
     const onClick = e => {
       setCurrent(e.key);
     }
