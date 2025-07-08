@@ -6,9 +6,7 @@ import { AuthContext } from '../context/auth.context';
 const Header = () => {
   const [current, setCurrent] = useState('');
   const {user} = useContext(AuthContext)
-  console.log(">>> check data", user)
     const onClick = e => {
-      console.log('click ', e);
       setCurrent(e.key);
     }
     const items = [
