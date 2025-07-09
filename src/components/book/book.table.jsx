@@ -2,6 +2,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, Table } from "antd";
 import { useEffect, useState } from "react";
 import { fetchAllBookAPI } from '../../services/api.service';
+import BookDetail from "./book.detail";
+import CreateBookControl from "./create.book.control";
 
 const BookTable = () => {
     const [dataBook, setDataBook] = useState([]);
@@ -15,6 +17,7 @@ const BookTable = () => {
     const [dataUpdate, setDataUpdate] = useState(null)
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
 
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     useEffect(() => {
         loadBook();
     }, [current, pageSize])
@@ -48,7 +51,7 @@ const BookTable = () => {
     const columns = [
     {
         title: "STT",
-        render: (_, index) => {
+        render: (_, record, index) => {
         return (
             <>{(index+1)+(current -1)*pageSize}</>
     )
@@ -95,7 +98,7 @@ const BookTable = () => {
         {
             title: 'Action',
             dataIndex: 'action',
-            render: (_, record) => {
+            render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px", }}>
                     <EditOutlined 
                         onClick={() => {
@@ -117,7 +120,7 @@ const BookTable = () => {
                         <DeleteOutlined style={{cursor:"pointer", color:"red"}} />
                     </Popconfirm>
                 </div>
-            }
+            )
             },
 
     ]
@@ -130,7 +133,9 @@ const BookTable = () => {
                     justifyContent:"space-between"
             }}>
                 <h3>Table Book</h3>
-                <Button type="primary">Create Book</Button>
+                {/* <Button type="primary">Create Book</Button> */}
+
+                <Button type="primary" onClick={() => setIsCreateOpen(true)}>Create Book</Button>
             </div>
 
             <Table
@@ -149,7 +154,21 @@ const BookTable = () => {
                 }
                 onChange={onChange}
             />
+            <BookDetail 
+                dataDetail={dataDetail}
+                setDataDetail={setDataDetail}
+                isDetailOpen={isDetailOpen}
+                setIsDetailOpen={setIsDetailOpen}
+            />
+            
+            <CreateBookControl 
+                isCreateOpen={isCreateOpen}
+                setIsCreateOpen={setIsCreateOpen}
+                loadBook={loadBook}
 
+            />
             </>
         )
 }
+
+export default BookTable;
